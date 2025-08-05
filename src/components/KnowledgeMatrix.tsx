@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Network, 
   GitMerge, 
@@ -79,8 +80,24 @@ const gapAnalysis = [
 ];
 
 export const KnowledgeMatrix = () => {
+  const { toast } = useToast();
+
+  const handleGenerateBridge = (gap: any) => {
+    toast({
+      title: "Generating Conceptual Bridge",
+      description: `Creating connection between ${gap.concept} and ${gap.targetConcept}`,
+    });
+  };
+
+  const handleInitiateSynthesis = () => {
+    toast({
+      title: "Synthesis Initiated",
+      description: "Beginning automated bridge generation between frameworks",
+    });
+  };
+
   return (
-    <div className="py-20 px-8 bg-gradient-knowledge">
+    <div id="knowledge" className="py-20 px-8 bg-gradient-knowledge">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-sacred bg-clip-text text-transparent">
@@ -181,7 +198,12 @@ export const KnowledgeMatrix = () => {
                 </div>
 
                 <div className="mt-4 flex justify-end">
-                  <Button size="sm" variant="outline" className="text-xs">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="text-xs"
+                    onClick={() => handleGenerateBridge(gap)}
+                  >
                     <Zap className="w-3 h-3 mr-1" />
                     Generate Bridge
                   </Button>
@@ -204,7 +226,10 @@ export const KnowledgeMatrix = () => {
                 This synthesis will create 12 new conceptual connections and potentially identify 3-5 novel theoretical constructs.
               </p>
               <div className="flex gap-3">
-                <Button className="bg-gradient-sacred hover:shadow-sacred">
+                <Button 
+                  className="bg-gradient-sacred hover:shadow-sacred"
+                  onClick={handleInitiateSynthesis}
+                >
                   <CheckCircle className="w-4 h-4 mr-2" />
                   Initiate Synthesis
                 </Button>

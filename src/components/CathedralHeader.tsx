@@ -1,8 +1,26 @@
 import { BookOpen, Brain, Network, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCathedralState } from "@/hooks/useCathedralState";
+import { useToast } from "@/hooks/use-toast";
 import cathedralHero from "@/assets/cathedral-hero.jpg";
 
 export const CathedralHeader = () => {
+  const { startPhase, scrollToSection } = useCathedralState();
+  const { toast } = useToast();
+
+  const handleBeginConstruction = () => {
+    startPhase('ingestion');
+    scrollToSection('architecture');
+    toast({
+      title: "Cathedral Construction Initiated",
+      description: "Beginning recursive knowledge synthesis protocol",
+    });
+  };
+
+  const handleExploreArchitecture = () => {
+    scrollToSection('architecture');
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -53,6 +71,7 @@ export const CathedralHeader = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button 
             size="lg" 
+            onClick={handleBeginConstruction}
             className="bg-gradient-sacred hover:shadow-sacred transform hover:scale-105 transition-all duration-300 text-lg px-8 py-4"
           >
             Begin Construction
@@ -60,6 +79,7 @@ export const CathedralHeader = () => {
           <Button 
             variant="outline" 
             size="lg"
+            onClick={handleExploreArchitecture}
             className="border-primary/30 bg-card/50 backdrop-blur-sm hover:bg-primary/10 text-lg px-8 py-4"
           >
             Explore Architecture

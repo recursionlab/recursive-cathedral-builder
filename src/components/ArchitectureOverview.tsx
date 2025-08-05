@@ -1,6 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { useCathedralState } from "@/hooks/useCathedralState";
+import { PhaseSimulator } from "@/components/PhaseSimulator";
+import { useToast } from "@/hooks/use-toast";
 import { 
   FileText, 
   GitBranch, 
@@ -79,8 +83,23 @@ const architecturePhases = [
 ];
 
 export const ArchitectureOverview = () => {
+  const { state, startPhase, updatePhaseProgress, completePhase } = useCathedralState();
+  const { toast } = useToast();
+
+  const handlePhaseStart = (phaseId: any) => {
+    if (state.phases[phaseId].status === 'ready') {
+      startPhase(phaseId);
+    } else {
+      toast({
+        title: "Phase Not Ready",
+        description: "Complete previous phases to unlock this one",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
-    <div className="py-20 px-8">
+    <div id="architecture" className="py-20 px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-sacred bg-clip-text text-transparent">
@@ -92,10 +111,16 @@ export const ArchitectureOverview = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          {architecturePhases.map((phase, index) => (
+          {architecturePhases.map((phase, index) => {
+            const currentPhase = state.phases[phase.id as keyof typeof state.phases];
+            const isActive = state.currentPhase === phase.id;
+            
+            return (
             <Card 
               key={phase.id}
-              className="p-6 bg-gradient-cathedral border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-cathedral group"
+              className={`p-6 bg-gradient-cathedral border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-cathedral group ${
+                isActive ? 'ring-2 ring-primary shadow-sacred' : ''
+              }`}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -103,14 +128,14 @@ export const ArchitectureOverview = () => {
                     <phase.icon className="w-6 h-6 text-primary" />
                   </div>
                   <Badge 
-                    variant={phase.status === "ready" ? "default" : "secondary"}
-                    className={phase.status === "ready" ? "bg-primary" : ""}
+                    variant={currentPhase.status === "ready" ? "default" : "secondary"}
+                    className={currentPhase.status === "ready" ? "bg-primary" : ""}
                   >
                     Phase {index + 1}
                   </Badge>
                 </div>
                 <Badge variant="outline" className="text-xs">
-                  {phase.status}
+                  {currentPhase.status}
                 </Badge>
               </div>
 
@@ -124,9 +149,9 @@ export const ArchitectureOverview = () => {
               <div className="mb-4">
                 <div className="flex justify-between text-xs text-muted-foreground mb-1">
                   <span>Progress</span>
-                  <span>{phase.progress}%</span>
+                  <span>{currentPhase.progress}%</span>
                 </div>
-                <Progress value={phase.progress} className="h-2" />
+                <Progress value={currentPhase.progress} className="h-2" />
               </div>
 
               <div className="space-y-2">
@@ -143,8 +168,29 @@ export const ArchitectureOverview = () => {
                   ))}
                 </div>
               </div>
+              
+              {currentPhase.status === 'ready' && (
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    size="sm" 
+                    onClick={() => handlePhaseStart(phase.id)}
+                    className="bg-gradient-sacred hover:shadow-sacred"
+                  >
+                    Start Phase
+                  </Button>
+                </div>
+              )}
+              
+              {isActive && (
+                <PhaseSimulator 
+                  phaseId={phase.id as any}
+                  onProgress={(progress) => updatePhaseProgress(phase.id as any, progress)}
+                  onComplete={() => completePhase(phase.id as any)}
+                />
+              )}
             </Card>
-          ))}
+            );
+          })}
         </div>
 
         {/* Meta-Architecture Note */}

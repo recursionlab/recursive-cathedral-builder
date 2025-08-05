@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 import { 
   FileCode, 
   Workflow, 
@@ -80,8 +81,31 @@ const metaDocumentation = [
 ];
 
 export const DocumentationEngine = () => {
+  const { toast } = useToast();
+
+  const handleRegenerate = (moduleTitle: string) => {
+    toast({
+      title: "Regenerating Module",
+      description: `Updating ${moduleTitle} documentation`,
+    });
+  };
+
+  const handleInitializeBootstrap = () => {
+    toast({
+      title: "Bootstrap Protocol Initialized",
+      description: "Beginning autonomous replication sequence",
+    });
+  };
+
+  const handleExportDocumentation = () => {
+    toast({
+      title: "Exporting Documentation",
+      description: "Generating complete specification package",
+    });
+  };
+
   return (
-    <div className="py-20 px-8">
+    <div id="documentation" className="py-20 px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-sacred bg-clip-text text-transparent">
@@ -139,7 +163,12 @@ export const DocumentationEngine = () => {
               </div>
 
               <div className="flex justify-end mt-4">
-                <Button size="sm" variant="outline" className="text-xs">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="text-xs"
+                  onClick={() => handleRegenerate(module.title)}
+                >
                   <RefreshCw className="w-3 h-3 mr-1" />
                   Regenerate
                 </Button>
@@ -232,11 +261,17 @@ export const DocumentationEngine = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Button className="bg-gradient-sacred hover:shadow-sacred">
+                <Button 
+                  className="bg-gradient-sacred hover:shadow-sacred"
+                  onClick={handleInitializeBootstrap}
+                >
                   <Zap className="w-4 h-4 mr-2" />
                   Initialize Bootstrap
                 </Button>
-                <Button variant="outline">
+                <Button 
+                  variant="outline"
+                  onClick={handleExportDocumentation}
+                >
                   Export Documentation
                 </Button>
               </div>
