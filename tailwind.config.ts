@@ -63,6 +63,19 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			backgroundImage: {
+				'gradient-cathedral': 'var(--gradient-cathedral)',
+				'gradient-sacred': 'var(--gradient-sacred)',
+				'gradient-knowledge': 'var(--gradient-knowledge)'
+			},
+			boxShadow: {
+				'cathedral': 'var(--shadow-cathedral)',
+				'sacred': 'var(--shadow-sacred)',
+				'deep': 'var(--shadow-deep)'
+			},
+			transitionTimingFunction: {
+				'sacred': 'var(--transition-sacred)'
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',

@@ -8,33 +8,51 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cathedral-inspired color palette */
+    --background: 240 8% 6%;
+    --foreground: 35 15% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 12% 8%;
+    --card-foreground: 35 15% 85%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 15% 10%;
+    --popover-foreground: 35 15% 85%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Sacred geometry gold accent */
+    --primary: 43 74% 66%;
+    --primary-foreground: 240 15% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Deep stone secondary */
+    --secondary: 240 20% 15%;
+    --secondary-foreground: 35 15% 85%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted cathedral stone */
+    --muted: 240 15% 12%;
+    --muted-foreground: 35 8% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Illuminated manuscript accent */
+    --accent: 260 60% 50%;
+    --accent-foreground: 35 15% 85%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 35 15% 85%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 20% 18%;
+    --input: 240 20% 15%;
+    --ring: 43 74% 66%;
+
+    /* Sacred geometry gradients */
+    --gradient-cathedral: linear-gradient(135deg, hsl(240 15% 8%), hsl(240 20% 12%));
+    --gradient-sacred: linear-gradient(45deg, hsl(43 74% 66%), hsl(260 60% 50%));
+    --gradient-knowledge: linear-gradient(180deg, hsl(240 12% 8%), hsl(240 8% 6%));
+    
+    /* Mystical shadows */
+    --shadow-cathedral: 0 10px 40px -10px hsl(240 15% 4% / 0.8);
+    --shadow-sacred: 0 0 30px hsl(43 74% 66% / 0.3);
+    --shadow-deep: 0 20px 60px -20px hsl(240 15% 2% / 0.9);
+
+    /* Geometric animation */
+    --transition-sacred: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
     --radius: 0.5rem;
 
@@ -101,5 +119,48 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* Sacred geometry animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes sacredPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+
+  .animate-sacred-pulse {
+    animation: sacredPulse 3s ease-in-out infinite;
+  }
+
+  /* Mystical scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
   }
 }
