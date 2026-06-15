@@ -14,13 +14,189 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chunks: {
+        Row: {
+          chunk_index: number
+          cluster_id: number | null
+          content: string
+          created_at: string
+          document_id: string
+          embedding: string | null
+          id: string
+          metadata: Json
+          token_count: number | null
+        }
+        Insert: {
+          chunk_index: number
+          cluster_id?: number | null
+          content: string
+          created_at?: string
+          document_id: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          token_count?: number | null
+        }
+        Update: {
+          chunk_index?: number
+          cluster_id?: number | null
+          content?: string
+          created_at?: string
+          document_id?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          token_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          byte_size: number | null
+          created_at: string
+          error: string | null
+          id: string
+          metadata: Json
+          mime_type: string | null
+          status: string
+          storage_path: string
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          byte_size?: number | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          status?: string
+          storage_path: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          byte_size?: number | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          status?: string
+          storage_path?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      insights: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          metadata: Json
+          run_id: string | null
+          source_chunk_ids: string[]
+          title: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          kind: string
+          metadata?: Json
+          run_id?: string | null
+          source_chunk_ids?: string[]
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          run_id?: string | null
+          source_chunk_ids?: string[]
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insights_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "synthesis_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      synthesis_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error: string | null
+          id: string
+          input: Json
+          output: Json
+          phase: string
+          progress: number
+          started_at: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          phase: string
+          progress?: number
+          started_at?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          phase?: string
+          progress?: number
+          started_at?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_chunks: {
+        Args: { match_count?: number; query_embedding: string }
+        Returns: {
+          content: string
+          document_id: string
+          id: string
+          similarity: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
